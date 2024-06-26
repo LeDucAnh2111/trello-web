@@ -1,11 +1,8 @@
+import "./output.css";
 function App() {
   return (
     <div className="App">
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <h1 className="text-4xl font-bold text-blue-600">
-          Hello, Tailwind CSS!
-        </h1>
-      </div>
+      <h1 class="text-3xl bg-slate-500 font-bold underline">Hello world!</h1>
     </div>
   );
 }
