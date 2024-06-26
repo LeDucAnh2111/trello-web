@@ -2,10 +2,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 
 :root {
+  --height-header: 58px;
+  --height-boardbar: 65px;
 }
 
 html {
   font-size: 62.5%;
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -13,4 +17,5 @@ body {
   font-size: 1.6rem;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }

@@ -1,10 +1,7 @@
+import DefaultLayout from "./components/layout/DefaultLayout";
 import "./output.css";
 function App() {
-  return (
-    <div className="App">
-      <h1 class="text-3xl bg-slate-500 font-bold underline">Hello world!</h1>
-    </div>
-  );
+  return <DefaultLayout></DefaultLayout>;
 }
 
 export default App;

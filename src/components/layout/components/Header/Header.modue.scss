@@ -1,0 +1,20 @@
+.container {
+  height: var(--height-header);
+  .logo {
+    width: 75px;
+    height: auto;
+    img {
+      width: 100%;
+    }
+  }
+
+  .box-menu {
+    .item {
+      .button {
+        color: white;
+        font-weight: 400;
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
