@@ -1,0 +1,14 @@
+.item {
+  display: flex;
+  justify-content: left;
+  font-weight: 400;
+  padding: 5px 2px;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: var(--ds-background-neutral, #091e420f);
+  }
+  + .item {
+    margin: 0;
+  }
+}
