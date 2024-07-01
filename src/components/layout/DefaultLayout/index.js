@@ -9,11 +9,11 @@ function DefaultLayout({ children }) {
   return (
     <div className="container mx-auto h-screen">
       <Header />
-      <div className="body">
+      <div className={cx("body")}>
         <SideBar></SideBar>
-        <div className="content">
+        <div className={cx("box-content")}>
           <BoardBar />
-          <h1>Content</h1>
+          <div className={cx("content")}>{children}</div>
         </div>
       </div>
     </div>

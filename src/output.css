@@ -579,13 +579,13 @@ video {
   }
 }
 
-.visible {
-  visibility: visible;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.box-content {
+  box-sizing: content-box;
 }
 
 .flex {
