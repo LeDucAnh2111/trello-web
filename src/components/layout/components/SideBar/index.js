@@ -5,23 +5,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
   faAngleLeft,
+  faChevronRight,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import ListMenuSideBar from "./ListMenuSideBar";
 import Button from "@/components/Button";
 import Menu from "@/components/Popper/Menu";
+import { useState } from "react";
 const cx = classNames.bind(styles);
 
-function SideBar() {
+function SideBar({ toggleSidebar, onClick }) {
   return (
-    <div className={cx("side-bar")}>
+    <div className={cx("side-bar", { "side-bar-toggle": toggleSidebar })}>
+      {toggleSidebar && (
+        <div className={cx("show-sidebar")} onClick={onClick}>
+          <FontAwesomeIcon icon={faChevronRight}></FontAwesomeIcon>
+        </div>
+      )}
+
       <div className={cx("header-sidebar")}>
         <div className={cx("logo")}>T</div>
         <div className={cx("header-content")}>
           <a href="#"> Trello Không gian làm việc</a>
           <span> Miễn phí </span>
         </div>
-        <div className={cx("toggle-show")}>
+        <div className={cx("toggle-show")} onClick={onClick}>
           <FontAwesomeIcon
             className={cx("icon")}
             icon={faAngleLeft}
@@ -35,7 +43,7 @@ function SideBar() {
               {item.title && (
                 <div className={cx("title-group")}>
                   {item.title}
-                  {item.push && <span>Xin chào</span>}
+                  {item.push && <span>{item.push}</span>}
                 </div>
               )}
               <div className={cx("box-menu")}>

@@ -4,16 +4,17 @@ import { Wrapper as PopperWrapper } from "@/components/Popper";
 import classNames from "classnames/bind";
 import styles from "./Menu.module.scss";
 import Button from "@/components/Button";
-import { StrictMode } from "react";
+import { StrictMode, memo } from "react";
 
 const cx = classNames.bind(styles);
-function Menu({ children, listItem, className }) {
+function Menu({ children, listItem, className, toggle }) {
   const items = listItem || [];
+  console.log("test");
   if (items.length > 0) {
     return (
       <Tippy
-        // hideOnClick={false}s
-        delay={500}
+        hideOnClick={false}
+        delay={200}
         interactive
         offset={[0, 10]}
         placement="bottom-start"
@@ -38,12 +39,12 @@ function Menu({ children, listItem, className }) {
           </div>
         )}
       >
-        <div>{children}</div>
+        <div className={cx("w-child")}>{children}</div>
       </Tippy>
     );
   } else {
-    return <div>{children}</div>;
+    return <div className={cx("w-child")}>{children}</div>;
   }
 }
 
-export default Menu;
+export default memo(Menu);

@@ -4,6 +4,7 @@ const {
   faGear,
   faTable,
   faTableList,
+  faPlus,
 } = require("@fortawesome/free-solid-svg-icons");
 const { FontAwesomeIcon } = require("@fortawesome/react-fontawesome");
 
@@ -49,7 +50,7 @@ const ListMenuSideBar = [
   },
   {
     title: "Các bảng của bạn",
-    push: true,
+    push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
     items: [
       {
         name: "Bảng",
@@ -58,7 +59,7 @@ const ListMenuSideBar = [
       {
         name: "Lịch",
         leftIcon: <FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon>,
-        push: true,
+        push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
       },
     ],
   },

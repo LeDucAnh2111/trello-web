@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 import styles from "./Input.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { memo } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -11,22 +12,22 @@ function Input({
   search = false,
   placeholder = "",
   value,
-  onChange = null,
   className = "",
+  ...events
 }) {
   let classList = cx("box-input", {
     [className]: className,
     [type]: type,
     search,
   });
-
   return (
     <div className={classList}>
       <input
         type={type}
         id="input"
+        value={value}
         placeholder={placeholder}
-        onChange={onChange}
+        {...events}
       />
       {search && (
         <label htmlFor="input">
@@ -49,4 +50,4 @@ Input.propTypes = {
   className: PropTypes.string,
 };
 
-export default Input;
+export default memo(Input);

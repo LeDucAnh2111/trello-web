@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 // import "@/output.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
@@ -10,12 +11,35 @@ import Menu from "@/components/Popper/Menu";
 import Input from "@/components/Input";
 import { faBell, faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
 import Title from "@/components/Title";
+import Search from "@/components/Popper/Search";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 const cx = classNames.bind(styles);
 function Header() {
+  const [valueSearch, setValueSearch] = useState("");
+  const [listSearch, setListSearch] = useState([]);
+  const [showListSearch, setShowListSearch] = useState(false);
+
+  useEffect(() => {
+    if (valueSearch === "") {
+      if (showListSearch) setShowListSearch(false);
+      if (listSearch.length > 0) setListSearch([]);
+    } else {
+      if (!showListSearch) setShowListSearch(true);
+      if (listSearch.length === 0) setListSearch([1, 2, 3]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [valueSearch]);
+
+  const handleSearch = useCallback((e) => {
+    setValueSearch(e.target.value);
+  }, []);
+
+  const menuItems = useMemo(() => MenuDataList, []);
+
   return (
     <div
       className={cx(
-        " header",
+        "header",
         "container flex justify-between items-center  px-4"
       )}
     >
@@ -23,10 +47,7 @@ function Header() {
         className={cx("header-left", "flex items-center justify-between gap-5")}
       >
         <div className="list-group">
-          <FontAwesomeIcon
-            icon={faList}
-            className="text-white text-3xl"
-          ></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faList} className="text-white text-3xl" />
         </div>
         <div className={cx("logo")}>
           <img
@@ -36,24 +57,22 @@ function Header() {
         </div>
         <div className={cx("box-menu")}>
           <ul className={cx("menu", " flex justify-around gap-3")}>
-            {MenuDataList.map((item, index) => {
-              return (
-                <li key={index} className={cx("item")}>
-                  <Menu
-                    listItem={item.listitemChild}
-                    className={cx("wrapper-itemChild")}
+            {menuItems.map((item, index) => (
+              <li key={index} className={cx("item")}>
+                <Menu
+                  listItem={item.listitemChild}
+                  className={cx("wrapper-itemChild")}
+                >
+                  <Button
+                    rightIcon={item.rightIcon}
+                    leftIcon={item.leftIcon}
+                    classNames={cx("button")}
                   >
-                    <Button
-                      rightIcon={item.rightIcon}
-                      leftIcon={item.leftIcon}
-                      classNames={cx("button")}
-                    >
-                      {item.title}
-                    </Button>
-                  </Menu>
-                </li>
-              );
-            })}
+                    {item.title}
+                  </Button>
+                </Menu>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -63,25 +82,29 @@ function Header() {
           "flex items-center justify-between gap-5"
         )}
       >
-        <Input
-          className={cx("CompSearch")}
-          search
-          placeholder="Search..."
-        ></Input>
+        <div>
+          <Search
+            className={cx("search-result")}
+            listSearch={listSearch}
+            showListSearch={showListSearch}
+          >
+            <Input
+              onChange={handleSearch}
+              className={cx("CompSearch")}
+              search
+              placeholder="Search..."
+              value={valueSearch}
+            />
+          </Search>
+        </div>
         <div className={cx("box-icon bell")}>
           <Title title="Thông báo">
-            <FontAwesomeIcon
-              className={cx("icon bell")}
-              icon={faBell}
-            ></FontAwesomeIcon>
+            <FontAwesomeIcon className={cx("icon bell")} icon={faBell} />
           </Title>
         </div>
         <div className={cx("box-icon ")}>
           <Title title="Thông tin">
-            <FontAwesomeIcon
-              className={cx("icon")}
-              icon={faCircleQuestion}
-            ></FontAwesomeIcon>
+            <FontAwesomeIcon className={cx("icon")} icon={faCircleQuestion} />
           </Title>
         </div>
         <Title title="Tài khoản">
@@ -98,4 +121,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);
