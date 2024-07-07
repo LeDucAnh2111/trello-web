@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable array-callback-return */
 import classNames from "classnames/bind";
 import styles from "./SideBar.module.scss";
@@ -6,12 +7,11 @@ import {
   faAngleDown,
   faAngleLeft,
   faChevronRight,
-  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import ListMenuSideBar from "./ListMenuSideBar";
 import Button from "@/components/Button";
 import Menu from "@/components/Popper/Menu";
-import { useState } from "react";
+import { memo } from "react";
 const cx = classNames.bind(styles);
 
 function SideBar({ toggleSidebar, onClick }) {
@@ -78,4 +78,4 @@ function SideBar({ toggleSidebar, onClick }) {
   );
 }
 
-export default SideBar;
+export default memo(SideBar);
