@@ -8,22 +8,16 @@ import {
   faTableCellsLarge,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import { memo } from "react";
 
 const cx = classNames.bind(style);
 
-function BoardBar({ children, onClick }) {
-  const listBoard = [
-    { title: "Bảng 1" },
-    { title: "Bảng 2" },
-    { title: "Bảng 3" },
-    { title: "Bảng 4" },
-  ];
-
+function BoardBar({ onClick, data }) {
   return (
     <div className={cx("boardbar")}>
       <div className={cx("left-boardbar")}>
-        <Button classNames={cx("Title-table")}>Test</Button>
-        <Menu listItem={listBoard}>
+        <Button classNames={cx("Title-table")}>{data?.board?.title}</Button>
+        <Menu listItem={data?.board?.columns}>
           <Button
             leftIcon={
               <FontAwesomeIcon icon={faTableCellsLarge}></FontAwesomeIcon>
@@ -75,4 +69,4 @@ function BoardBar({ children, onClick }) {
   );
 }
 
-export default BoardBar;
+export default memo(BoardBar);

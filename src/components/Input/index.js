@@ -7,19 +7,20 @@ import { memo } from "react";
 
 const cx = classNames.bind(styles);
 
-function Input({
+const Input = ({
   type = "text",
   search = false,
   placeholder = "",
   value,
   className = "",
   ...events
-}) {
+}) => {
   let classList = cx("box-input", {
     [className]: className,
     [type]: type,
     search,
   });
+  console.log("check input");
   return (
     <div className={classList}>
       <input
@@ -39,7 +40,7 @@ function Input({
       )}
     </div>
   );
-}
+};
 
 Input.propTypes = {
   type: PropTypes.string,

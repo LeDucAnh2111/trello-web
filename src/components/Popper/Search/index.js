@@ -3,14 +3,15 @@ import styles from "./Search.module.scss";
 import Tippy from "@tippyjs/react/headless";
 import { Wrapper as PopperWrapper } from "@/components/Popper";
 import Button from "@/components/Button";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 const cx = classNames.bind(styles);
 
 function Search({ className, children, listSearch, showListSearch }) {
+  console.log("check");
   return (
     <Tippy
-      visible={listSearch.length > 0}
+      visible={listSearch?.length > 0}
       interactive
       delay={[0, 100]}
       render={(attrs) => (
@@ -60,4 +61,4 @@ function Search({ className, children, listSearch, showListSearch }) {
   );
 }
 
-export default Search;
+export default memo(Search);

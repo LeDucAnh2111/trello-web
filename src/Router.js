@@ -1,9 +1,9 @@
 import Home from "./Pages/Home";
-import Table from "./Pages/Table";
+import Boards from "./Pages/Boards";
 
 let Route = [
   { path: "/", component: Home },
-  { path: "/table", component: Table },
+  { path: "/boards", component: Boards },
 ];
 
 export default Route;

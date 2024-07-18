@@ -9,7 +9,6 @@ import { StrictMode, memo } from "react";
 const cx = classNames.bind(styles);
 function Menu({ children, listItem, className, toggle }) {
   const items = listItem || [];
-  console.log("test");
   if (items.length > 0) {
     return (
       <Tippy
@@ -29,6 +28,7 @@ function Menu({ children, listItem, className, toggle }) {
                       classNames={cx("item")}
                       key={index}
                       leftIcon={item.leftIcon}
+                      onClick={item.onClick}
                     >
                       {item.title}
                     </Button>

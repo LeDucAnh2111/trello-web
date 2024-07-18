@@ -16,7 +16,7 @@ function DefaultLayout({ children }) {
 
   console.log(toggleSidebar);
   return (
-    <div className="container mx-auto h-screen">
+    <div className={cx("container")}>
       <Header />
       <div className={cx("body")}>
         <div

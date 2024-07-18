@@ -3,7 +3,9 @@
 
 :root {
   --height-header: 58px;
-  --height-boardbar: 65px;
+  --height-boardbar: 56px;
+  --height-content: calc(100vh - var(--height-header) - var(--height-boardbar));
+  --color-columns: #f1f2f4;
 }
 
 html {

@@ -1,4 +1,7 @@
 import { faCalendarDays, faUser } from "@fortawesome/free-regular-svg-icons";
+import listData from "@/dataFake/listBoard";
+
+console.log(listData);
 
 const {
   faGear,
@@ -51,17 +54,24 @@ const ListMenuSideBar = [
   {
     title: "Các bảng của bạn",
     push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
-    items: [
-      {
-        name: "Bảng",
-        leftIcon: <FontAwesomeIcon icon={faTableList}></FontAwesomeIcon>,
-      },
-      {
-        name: "Lịch",
-        leftIcon: <FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon>,
-        push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
-      },
-    ],
+    // items: [
+    //   {
+    //     name: "Bảng",
+    //     leftIcon: <FontAwesomeIcon icon={faTableList}></FontAwesomeIcon>,
+    //   },
+    //   {
+    //     name: "Lịch",
+    //     leftIcon: <FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon>,
+    //     push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
+    //   },
+    // ],
+    items: listData?.map((item) => {
+      return {
+        _id: item.board._id,
+        name: item.board.title,
+        template: item.board.template,
+      };
+    }),
   },
 ];
 

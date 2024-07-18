@@ -109,3 +109,53 @@
   align-items: center;
   border-radius: 50%;
 }
+
+.content {
+  display: flex;
+  align-items: start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  user-select: none;
+  height: calc(100% - var(--height-boardbar));
+  padding: 15px 20px 0;
+  // scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    height: 7px; /* Độ rộng của thanh cuộn */
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 2px; /* Độ rộng của thanh cuộn */
+    background-color: rgba(137, 137, 137, 0.5); /* Màu của thanh kéo */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 10px; /* Bo góc của thanh kéo */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent; /* Màu nền của thanh cuộn */
+    border-radius: 10px; /* Màu nền của thanh cuộn */
+  }
+}
+
+.add-columns {
+  .button-add-columns {
+    width: 272px;
+    height: 44px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    padding: 12px;
+    background-color: #ffffff3d;
+    color: #fff;
+    margin: 7px;
+    margin-left: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 9px;
+    transition: background-color 0.1s ease-in-out;
+    &:hover {
+      background-color: #a6c5e229;
+    }
+  }
+}

@@ -1,22 +1,26 @@
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./Button.module.scss";
+import { forwardRef } from "react";
 
 const cx = classNames.bind(styles);
 
-function Button({
-  to,
-  href,
-  primary = false,
-  outline = false,
-  disabled = false,
-  rounded = false,
-  leftIcon,
-  rightIcon,
-  classNames,
-  children,
-  ...events
-}) {
+function Button(
+  {
+    to,
+    href,
+    primary = false,
+    outline = false,
+    disabled = false,
+    rounded = false,
+    leftIcon,
+    rightIcon,
+    classNames,
+    children,
+    ...events
+  },
+  ref
+) {
   if (primary && outline) {
     outline = false;
   }
@@ -42,12 +46,12 @@ function Button({
     Card = "a";
   }
   return (
-    <Card className={className} href={href} {...events}>
-      {leftIcon && <span>{leftIcon}</span>}
+    <Card className={className} href={href} {...events} ref={ref}>
+      {leftIcon && <>{leftIcon}</>}
       {children}
       {rightIcon && <span>{rightIcon}</span>}
     </Card>
   );
 }
 
-export default Button;
+export default forwardRef(Button);

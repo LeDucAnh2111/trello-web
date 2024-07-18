@@ -1,23 +1,69 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import BoardBar from "@/Pages/Table/components/BoardBar";
 import classNames from "classnames/bind";
-import styles from "./Table.module.scss";
-import Modal from "@/components/Modal";
-import Button from "@/components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { memo, useCallback, useEffect, useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  MouseSensor,
+  TouchSensor,
+} from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import { sort } from "@/util";
+import BoardBar from "@/Pages/Boards/components/BoardBar";
 import Input from "@/components/Input";
 import Menu from "@/components/Popper/Menu";
-import { useState } from "react";
+import Modal from "@/components/Modal";
+import Button from "@/components/Button";
+import styles from "./Table.module.scss";
+import ListColumns from "./components/ListColumns";
+import { mockData } from "@/dataFake";
+const cx = classNames.bind(styles);
 
-function Table() {
-  const cx = classNames.bind(styles);
+function Boards() {
+  // Yêu cầu chuột di click và di chuyển 10px thì sự kiện mới được hoạt động
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: { distance: 10 },
+  });
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: { distance: 10 },
+  });
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: { delay: 200, tolerance: 500 },
+  });
+  const sensor = useSensors(pointerSensor);
+
   const [toggleModal, setToggleModal] = useState(false);
+  const [orderedColumns, setOrderedColumns] = useState([]);
 
-  const handleToggleModal = () => {
+  const handleToggleModal = useCallback(() => {
     setToggleModal(!toggleModal);
+  }, [toggleModal]);
+
+  useEffect(() => {
+    setOrderedColumns(
+      sort(mockData.board.columns, mockData.board.columnOrderIds, "_id")
+    );
+  }, []);
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    // nếu vị trí sau khi thả không tồn tại (Null) thì nó sẽ return lun không cần làm những cái phía dưới nữa
+    if (!over) return;
+    if (active.id !== over.id) {
+      const oldIndex = orderedColumns.findIndex(
+        (item) => item._id === active.id
+      );
+      const newIndex = orderedColumns.findIndex((item) => item._id === over.id);
+      const dndOrderedColumns = arrayMove(orderedColumns, oldIndex, newIndex);
+      setOrderedColumns(dndOrderedColumns);
+    }
   };
-  console.log("checkToggleModal");
+
   return (
     <>
       {toggleModal && (
@@ -35,7 +81,6 @@ function Table() {
                     ></FontAwesomeIcon>
                   </Button>
                 </span>
-
                 <Input
                   className={cx("search-user")}
                   placeholder="Địa chỉ email hoặc tên "
@@ -68,10 +113,17 @@ function Table() {
           </div>
         </Modal>
       )}
-      <BoardBar onClick={handleToggleModal} />
-      <div className={cx("content")}></div>
+      <BoardBar onClick={handleToggleModal} data={mockData} />
+
+      <DndContext
+        onDragEnd={handleDragEnd}
+        collisionDetection={closestCenter}
+        sensors={sensor}
+      >
+        <ListColumns listColumns={orderedColumns}></ListColumns>
+      </DndContext>
     </>
   );
 }
 
-export default Table;
+export default memo(Boards);

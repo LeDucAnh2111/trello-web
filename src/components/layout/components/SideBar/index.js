@@ -48,8 +48,16 @@ function SideBar({ toggleSidebar, onClick }) {
               )}
               <div className={cx("box-menu")}>
                 {item.items.map((item, index) => {
+                  console.log(item);
                   return (
                     <div key={index} className={cx("box-item", "flex")}>
+                      {item.template && (
+                        <img
+                          className={cx("template-img")}
+                          src="https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/snow.svg"
+                          alt=""
+                        ></img>
+                      )}
                       <Button leftIcon={item.leftIcon} classNames={cx("title")}>
                         {item.name}
                       </Button>

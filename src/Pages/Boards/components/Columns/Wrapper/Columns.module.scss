@@ -1,0 +1,133 @@
+.columns {
+  flex: 0 0 auto;
+  width: 272px;
+  background-color: var(--color-columns);
+  max-height: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  align-items: stretch;
+  gap: 5px;
+  padding: 0 8px;
+  margin: 7px;
+  // gap: 2px;
+  box-shadow: var(
+    --ds-shadow-raised,
+    0px 1px 1px #091e4240,
+    0px 0px 1px #091e424f
+  );
+  .header-columns {
+    height: 40px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    justify-content: space-between;
+    .title-columns,
+    .other-columns {
+      min-width: fit-content;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+    .title-columns {
+    }
+    .other-columns {
+      width: 32px;
+      height: 32px;
+      // font-size: 14px;
+      background-color: transparent;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: var(
+          --accent-background-hovered,
+          var(--ds-background-neutral-hovered, #091e4224)
+        );
+        color: var(--accent-text-bolder, var(--ds-icon, #44546f));
+      }
+      .icon {
+        font-size: 1.4rem;
+        // color: var(--accent-text-bolder, var(--ds-icon, #3272e0));
+      }
+    }
+  }
+
+  .content-columns {
+    // flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-right: 2px;
+    &::-webkit-scrollbar {
+      padding-left: 2px;
+      width: 4px; /* Độ rộng của thanh cuộn */
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(168, 168, 168, 0.5); /* Màu của thanh kéo */
+      border-radius: 10px; /* Bo góc của thanh kéo */
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #f1f1f1; /* Màu nền của thanh cuộn */
+      border-radius: 10px; /* Màu nền của thanh cuộn */
+    }
+  }
+
+  .footer-columns {
+    min-height: 40px;
+    padding: 7px 0;
+    padding-right: 6px;
+    display: flex;
+    justify-content: space-between;
+
+    .add-card,
+    .other-footer {
+      min-width: fit-content;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+    .add-card {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 6px;
+      border-radius: 8px;
+      gap: 5px;
+      transition: background-color 0.2s ease-in-out;
+      color: #5a6880;
+      &:hover {
+        background-color: var(
+          --accent-background-hovered,
+          var(--ds-background-neutral-hovered, #091e4224)
+        );
+        color: var(--accent-text-bolder, var(--ds-text, #172b4d));
+      }
+    }
+    .add-card-icon {
+      font-size: 14px;
+      color: #5a6880;
+    }
+    .icon-new-sample {
+      min-width: 32px;
+      height: 32px;
+      // margin-right: 6px;
+      color: #5a6880;
+
+      border-radius: 5px;
+      transition: background-color 0.2s ease-in-out;
+      &:hover {
+        background-color: var(
+          --accent-background-hovered,
+          var(--ds-background-neutral-hovered, #091e4224)
+        );
+        color: var(--accent-text-bolder, var(--ds-text, #172b4d));
+      }
+    }
+  }
+}
