@@ -105,17 +105,6 @@ export const mockData = {
             comments: [],
             attachments: [],
           },
-          {
-            _id: "card-id-08",
-            boardId: "board-id-01",
-            columnId: "column-id-01",
-            title: "Title of card 07",
-            description: null,
-            cover: null,
-            memberIds: [],
-            comments: [],
-            attachments: [],
-          },
         ],
       },
       {

@@ -1,76 +1,91 @@
 import classnames from "classnames/bind";
-import styles from "./Card.module.scss";
-import Button from "@/components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEye } from "@fortawesome/free-regular-svg-icons";
-import Title from "@/components/Title";
 import Tippy from "@tippyjs/react";
-import { Children, useEffect, useRef, useState } from "react";
+import { Children, Fragment, useEffect, useRef, useState } from "react";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import styles from "./Card.module.scss";
+import Button from "@/components/Button";
+import Title from "@/components/Title";
 
 const cx = classnames.bind(styles);
 
-function Card({ children, classname, value, ...event }) {
+function Card({ children, classname, card, id, ...event }) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useSortable({ id: id, data: { ...card } });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    TransformStreamDefaultController,
+    opacity: isDragging ? 0.5 : undefined,
+  };
   const [showUpdateCard, setShowUpdateCard] = useState(false);
   const elmCard = useRef(null);
+  // Set show hide icon pen in card
   useEffect(() => {
-    elmCard.current.addEventListener("mouseenter", () => {
+    const show = () => {
       setTimeout(() => {
         setShowUpdateCard(true);
       }, 200);
-    });
-    elmCard.current.addEventListener("mouseleave", () => {
+    };
+    const hide = () => {
       setTimeout(() => {
         setShowUpdateCard(false);
       }, 200);
-    });
+    };
+    elmCard.current.addEventListener("mouseenter", show());
+    elmCard.current.addEventListener("mouseleave", hide());
   }, []);
 
-  const checkBoxAddOns = () => {
-    if (value.memberIds.length > 0 || value.comments.length > 0) {
-      return true;
-    }
-    return false;
+  const cardAddOn = () => {
+    return card.memberIds.length > 0 || card.comments.length > 0;
   };
 
   return (
     <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       className={cx("card", {
-        "w-card": checkBoxAddOns(),
+        "w-card": cardAddOn(),
       })}
-      ref={elmCard}
     >
-      {value.cover && <img src={value?.cover} alt="img"></img>}
-      <div className={cx("content-card")}>
-        {value.title}
-        {showUpdateCard && (
-          <div className={cx("edit")}>
-            <FontAwesomeIcon icon={faPencil}></FontAwesomeIcon>
+      <div ref={elmCard}>
+        {card.cover && <img src={card?.cover} alt="img"></img>}
+        <div className={cx("content-card")}>
+          {card.title}
+          {showUpdateCard && (
+            <div className={cx("edit")}>
+              <FontAwesomeIcon icon={faPencil}></FontAwesomeIcon>
+            </div>
+          )}
+        </div>
+        {cardAddOn() && (
+          <div className={cx("add-ons")}>
+            {card.memberIds && (
+              <Title title="Members">
+                <Button
+                  className={cx("item", "messages")}
+                  leftIcon={<FontAwesomeIcon icon={faEye} />}
+                ></Button>
+              </Title>
+            )}
+            {card.comments && (
+              <Title title="Comments">
+                <Button
+                  className={cx("item", "messages")}
+                  leftIcon={<FontAwesomeIcon icon={faComment} />}
+                >
+                  {card?.comments?.lenght}
+                </Button>
+              </Title>
+            )}
           </div>
         )}
       </div>
-      {checkBoxAddOns() && (
-        <div className={cx("add-ons")}>
-          {value.memberIds && (
-            <Title title="Members">
-              <Button
-                className={cx("item", "messages")}
-                leftIcon={<FontAwesomeIcon icon={faEye} />}
-              ></Button>
-            </Title>
-          )}
-          {value.comments && (
-            <Title title="Comments">
-              <Button
-                className={cx("item", "messages")}
-                leftIcon={<FontAwesomeIcon icon={faComment} />}
-              >
-                {value?.comments?.lenght}
-              </Button>
-            </Title>
-          )}
-        </div>
-      )}
     </div>
   );
 }

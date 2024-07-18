@@ -1,19 +1,23 @@
 import { Fragment, memo, useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
-import styles from "./ListColumns.module.scss";
-import Columns from "../Columns/Wrapper";
-import Card from "../Card";
-import Button from "@/components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import {
   SortableContext,
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import ListCard from "../listCards";
+import { DragOverlay } from "@dnd-kit/core";
+import styles from "./ListColumns.module.scss";
+import Columns from "../Columns";
+import Card from "../Card";
+import Button from "@/components/Button";
 
 const cx = classNames.bind(styles);
 
 function ListColumns({ listColumns }) {
+  const [activeId, setActiveId] = useState(null);
+
   const boxContent = useRef(null);
 
   useEffect(() => {
@@ -62,29 +66,27 @@ function ListColumns({ listColumns }) {
   }, []);
 
   return (
-    <div className={cx("content")} ref={boxContent}>
-      <SortableContext
-        items={listColumns?.map((column) => column._id)}
-        strategy={horizontalListSortingStrategy}
-      >
-        {listColumns.map((column, index) => (
-          <Columns column={column} key={index} title={column?.title}>
-            {column.cards.map((card, index) => (
-              <Card key={index} value={card}></Card>
-            ))}
-          </Columns>
-        ))}
-      </SortableContext>
-
-      <div className={cx("add-columns")}>
-        <Button
-          className={cx("button-add-columns")}
-          leftIcon={<FontAwesomeIcon icon={faPlus} />}
+    <>
+      <div className={cx("content")} ref={boxContent}>
+        <SortableContext
+          items={listColumns?.map((column) => column._id)}
+          strategy={horizontalListSortingStrategy}
         >
-          Thêm danh sách khác
-        </Button>
+          {listColumns.map((column, index) => (
+            <Columns key={index} column={column}></Columns>
+          ))}
+        </SortableContext>
+
+        <div className={cx("add-columns")}>
+          <Button
+            className={cx("button-add-columns")}
+            leftIcon={<FontAwesomeIcon icon={faPlus} />}
+          >
+            Thêm danh sách khác
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

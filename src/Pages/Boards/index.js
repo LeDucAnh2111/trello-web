@@ -11,6 +11,7 @@ import {
   useSensors,
   MouseSensor,
   TouchSensor,
+  DragOverlay,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { sort } from "@/util";
@@ -22,9 +23,23 @@ import Button from "@/components/Button";
 import styles from "./Table.module.scss";
 import ListColumns from "./components/ListColumns";
 import { mockData } from "@/dataFake";
+import Columns from "./components/Columns";
+import Card from "./components/Card";
 const cx = classNames.bind(styles);
 
+const ACTIVE_DRAG_ITEM_TYPE = {
+  COLUMN: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",
+  CARD: "ACTIVE_DRAG_ITEM_TYPE_CARD",
+};
+
 function Boards() {
+  // set state để làm phần dragOverlay
+  const [activeDragItemId, setActiveDragItemId] = useState(null);
+  const [activeDragItemType, setActiveDragItemType] = useState(null);
+  const [activeDragItemData, setActiveDragItemData] = useState(null);
+
+  const [toggleModal, setToggleModal] = useState(false);
+  const [orderedColumns, setOrderedColumns] = useState([]);
   // Yêu cầu chuột di click và di chuyển 10px thì sự kiện mới được hoạt động
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: { distance: 10 },
@@ -35,10 +50,7 @@ function Boards() {
   const touchSensor = useSensor(TouchSensor, {
     activationConstraint: { delay: 200, tolerance: 500 },
   });
-  const sensor = useSensors(pointerSensor);
-
-  const [toggleModal, setToggleModal] = useState(false);
-  const [orderedColumns, setOrderedColumns] = useState([]);
+  const sensor = useSensors(pointerSensor, mouseSensor, touchSensor);
 
   const handleToggleModal = useCallback(() => {
     setToggleModal(!toggleModal);
@@ -50,8 +62,20 @@ function Boards() {
     );
   }, []);
 
+  const handleDragStart = (event) => {
+    console.log(event);
+    setActiveDragItemId(event?.active?.id);
+    setActiveDragItemData(event?.active?.data?.current);
+    setActiveDragItemType(
+      event?.active?.data?.current?.columnId
+        ? ACTIVE_DRAG_ITEM_TYPE.CARD
+        : ACTIVE_DRAG_ITEM_TYPE.COLUMN
+    );
+  };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
+    console.log(event);
     // nếu vị trí sau khi thả không tồn tại (Null) thì nó sẽ return lun không cần làm những cái phía dưới nữa
     if (!over) return;
     if (active.id !== over.id) {
@@ -62,6 +86,10 @@ function Boards() {
       const dndOrderedColumns = arrayMove(orderedColumns, oldIndex, newIndex);
       setOrderedColumns(dndOrderedColumns);
     }
+    // Khi thả box ra thì tất cả các giá trị về lại null
+    setActiveDragItemId(null);
+    setActiveDragItemData(null);
+    setActiveDragItemType(null);
   };
 
   return (
@@ -116,11 +144,21 @@ function Boards() {
       <BoardBar onClick={handleToggleModal} data={mockData} />
 
       <DndContext
-        onDragEnd={handleDragEnd}
-        collisionDetection={closestCenter}
         sensors={sensor}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
       >
         <ListColumns listColumns={orderedColumns}></ListColumns>
+        <DragOverlay>
+          {activeDragItemId &&
+            activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
+              <Columns column={activeDragItemData}></Columns>
+            )}
+          {activeDragItemId &&
+            activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD && (
+              <Card card={activeDragItemData}></Card>
+            )}
+        </DragOverlay>
       </DndContext>
     </>
   );
