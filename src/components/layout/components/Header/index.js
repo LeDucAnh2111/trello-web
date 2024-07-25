@@ -41,7 +41,12 @@ function Header() {
   const menuItems = useMemo(() => MenuDataList, []);
 
   return (
-    <div className={cx("header", "flex justify-between items-center  px-4")}>
+    <div
+      className={cx(
+        "header",
+        "flex justify-between items-center  px-4 overflow-x-auto"
+      )}
+    >
       <div
         className={cx("header-left", "flex items-center justify-between gap-5")}
       >

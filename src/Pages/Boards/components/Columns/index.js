@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import classNames from "classnames/bind";
 import styles from "./Columns.module.scss";
 import Button from "@/components/Button";
@@ -41,7 +42,7 @@ function Columns({ children, column }) {
     // cái này có thể fix được "tương đối" khi kéo thả trên điện thoại hoặc máy tính
     // touchAction: "none",
     transform: CSS.Translate.toString(transform),
-    TransformStreamDefaultController,
+    TransitionEvent,
     opacity: isDragging ? 0.5 : undefined,
   };
   let listmenu = useRef([

@@ -14,6 +14,7 @@ import {
   DragOverlay,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
+import { cloneDeep } from "lodash";
 import { sort } from "@/util";
 import BoardBar from "@/Pages/Boards/components/BoardBar";
 import Input from "@/components/Input";
@@ -38,8 +39,13 @@ function Boards() {
   const [activeDragItemType, setActiveDragItemType] = useState(null);
   const [activeDragItemData, setActiveDragItemData] = useState(null);
 
-  const [toggleModal, setToggleModal] = useState(false);
   const [orderedColumns, setOrderedColumns] = useState([]);
+  const [toggleModal, setToggleModal] = useState(false);
+  const findColumnsByCard = (idCard) => {
+    return orderedColumns.find((item) =>
+      item?.cards?.map((card) => card._id)?.includes(idCard)
+    );
+  };
   // Yêu cầu chuột di click và di chuyển 10px thì sự kiện mới được hoạt động
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: { distance: 10 },
@@ -63,7 +69,6 @@ function Boards() {
   }, []);
 
   const handleDragStart = (event) => {
-    console.log(event);
     setActiveDragItemId(event?.active?.id);
     setActiveDragItemData(event?.active?.data?.current);
     setActiveDragItemType(
@@ -73,11 +78,97 @@ function Boards() {
     );
   };
 
+  /* Để kéo chúng ta cần lấy id của của column mà card đang được kéo , id của column mà card đang over qua, giá trị của card và id của card đang được kéo và khi kéo qua thì sẽ xóa id và giá trị của card ở column cũ và thêm nó vào trong giá trị của column mới */
+  const handleDragOver = (event) => {
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) return;
+
+    console.log(event);
+    const { active, over } = event;
+    const {
+      id: activeDraggingCard,
+      data: { current: activeDraggingCardData },
+    } = active;
+    const {
+      id: activeOverCard,
+      data: { current: activeOverCardData },
+    } = over;
+
+    console.log(orderedColumns);
+    // Tìm column theo card id
+
+    const columnActiveDragging = findColumnsByCard(activeDraggingCard);
+    const columnActiveOver = findColumnsByCard(activeOverCard);
+
+    // Kiểm tra nếu không có 1 trong 2 column active over thì chặn hoạt động phía dưới, hạn chế cras trang web
+    if (!columnActiveDragging || !columnActiveOver) return;
+    // nếu đã có 2 column thì làm tiếp
+    if (columnActiveDragging !== columnActiveOver) {
+      // kiếm id card đang được kéo trong column
+      const cardsInColumnActive = columnActiveDragging.cards.findIndex(
+        (card) => card._id === activeDraggingCard
+      );
+      console.log(cardsInColumnActive);
+      // kiếm id card đang được over trong columns
+      const cardsInColumnOver = columnActiveOver.cards.findIndex(
+        (card) => card._id === activeOverCard
+      );
+
+      console.log("giá trị cột mà card đang được kéo :", columnActiveDragging);
+      console.log("giá trị cột mà card đang over :", columnActiveOver);
+      console.log("index card đang được kéo: ", cardsInColumnActive);
+      console.log("id card đang được kéo: ", activeDraggingCard);
+      console.log("index card đang được over: ", cardsInColumnOver);
+      console.log("id card đang được over: ", activeOverCard);
+
+      setOrderedColumns((preOrderColumns) => {
+        const cloneOrderColumns = cloneDeep(preOrderColumns);
+        console.log(cloneOrderColumns);
+        //Xóa card được kéo ra khỏi column đang chưa nó
+        //+ Tìm column chứa card đang được kéo
+        let findColumnByActieCard = cloneOrderColumns.find(
+          (column) => column._id === columnActiveDragging._id
+        );
+        //Kiểm tra column này có tồn tại không ( Kiểm cho chắc :)) )
+        if (findColumnByActieCard) {
+          //+ Thay đổi các mảng cards cũ bằng mảng cards đã được xóa card đang active
+          findColumnByActieCard.cards = findColumnByActieCard.cards.filter(
+            (card, index) => index !== cardsInColumnActive
+          );
+          // Xóa id card đang được kéo trong mảng cardOrderIds của column đang chứa card đang được kéo
+          findColumnByActieCard.cardOrderIds =
+            findColumnByActieCard.cardOrderIds.filter(
+              (idCard) => idCard !== activeDraggingCard
+            );
+        }
+
+        //+ Tìm column chứa card đang được kéo
+        let findColumnByOverCard = cloneOrderColumns.find(
+          (column) => column._id === columnActiveOver._id
+        );
+        //Kiểm tra column này có tồn tại không ( Kiểm cho chắc :)) )
+        if (findColumnByOverCard) {
+          // Thêm card đang kéo vào column đang được card over
+          findColumnByOverCard.cards.push(activeDraggingCardData);
+          // Thêm id card đang kéo vào mảng cardOrderIds của column đang được card over
+          findColumnByOverCard.cardOrderIds.push(activeDraggingCard._id);
+        }
+
+        return [...cloneOrderColumns];
+      });
+    }
+  };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
-    console.log(event);
+
+    // Kiểm tra hành động kéo thả card và tạm thời không làm gì
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
+      return;
+    }
+
     // nếu vị trí sau khi thả không tồn tại (Null) thì nó sẽ return lun không cần làm những cái phía dưới nữa
     if (!over) return;
+    // logic kéo thả columns
     if (active.id !== over.id) {
       const oldIndex = orderedColumns.findIndex(
         (item) => item._id === active.id
@@ -146,17 +237,18 @@ function Boards() {
       <DndContext
         sensors={sensor}
         onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
         <ListColumns listColumns={orderedColumns}></ListColumns>
         <DragOverlay>
           {activeDragItemId &&
-            activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
-              <Columns column={activeDragItemData}></Columns>
-            )}
-          {activeDragItemId &&
             activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD && (
               <Card card={activeDragItemData}></Card>
+            )}
+          {activeDragItemId &&
+            activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
+              <Columns column={activeDragItemData}></Columns>
             )}
         </DragOverlay>
       </DndContext>

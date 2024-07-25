@@ -4,6 +4,7 @@
     flex: 0 0 auto;
     width: 272px;
     background-color: var(--color-columns);
+    min-height: fit-content;
     max-height: calc(100% - 20px);
     display: flex;
     flex-direction: column;

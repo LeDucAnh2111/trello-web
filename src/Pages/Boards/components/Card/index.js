@@ -12,13 +12,13 @@ import Title from "@/components/Title";
 
 const cx = classnames.bind(styles);
 
-function Card({ children, classname, card, id, ...event }) {
+function Card({ children, classname, card, id }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useSortable({ id: id, data: { ...card } });
+    useSortable({ id, data: { ...card } });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
-    TransformStreamDefaultController,
+    transform: CSS.Translate.toString(transform),
+    TransitionEvent,
     opacity: isDragging ? 0.5 : undefined,
   };
   const [showUpdateCard, setShowUpdateCard] = useState(false);
@@ -48,12 +48,11 @@ function Card({ children, classname, card, id, ...event }) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
       className={cx("card", {
         "w-card": cardAddOn(),
       })}
     >
-      <div ref={elmCard}>
+      <div ref={elmCard} {...listeners}>
         {card.cover && <img src={card?.cover} alt="img"></img>}
         <div className={cx("content-card")}>
           {card.title}
