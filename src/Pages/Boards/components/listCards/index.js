@@ -1,11 +1,12 @@
 import Card from "../Card"; //
 import classNames from "classnames/bind";
-import styles from "./ListCards.module.scss";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
+import styles from "./ListCards.module.scss";
+import sort from "@/util/sort";
 
 const cx = classNames.bind(styles);
 

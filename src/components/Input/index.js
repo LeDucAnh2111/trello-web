@@ -20,7 +20,6 @@ const Input = ({
     [type]: type,
     search,
   });
-  console.log("check input");
   return (
     <div className={classList}>
       <input

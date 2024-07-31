@@ -13,6 +13,7 @@ import Title from "@/components/Title";
 const cx = classnames.bind(styles);
 
 function Card({ children, classname, card, id }) {
+  // useSortable mình chuyền id và data vào để khi kéo thả thì nó có thể chuyền dữ liệu id của box đang kéo và giá trị của box đang kéo ra phần event của các sự kiện như onDragEnd, onDragOver , onDragStart ,... để có thể thao tác với các giá trị dễ dàng hơn
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useSortable({ id, data: { ...card } });
 
@@ -40,7 +41,7 @@ function Card({ children, classname, card, id }) {
   }, []);
 
   const cardAddOn = () => {
-    return card.memberIds.length > 0 || card.comments.length > 0;
+    return card?.memberIds?.length > 0 || card?.comments?.length > 0;
   };
 
   return (
@@ -49,7 +50,9 @@ function Card({ children, classname, card, id }) {
       style={style}
       {...attributes}
       className={cx("card", {
-        "w-card": cardAddOn(),
+        "h-default": !cardAddOn() && !card.FE_placehoder_card,
+        "w-card": cardAddOn() && !card.FE_placehoder_card,
+        "h-card": card.FE_placehoder_card,
       })}
     >
       <div ref={elmCard} {...listeners}>

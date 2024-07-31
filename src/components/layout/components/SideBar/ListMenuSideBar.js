@@ -1,8 +1,6 @@
 import { faCalendarDays, faUser } from "@fortawesome/free-regular-svg-icons";
 import listData from "@/dataFake/listBoard";
 
-console.log(listData);
-
 const {
   faGear,
   faTable,

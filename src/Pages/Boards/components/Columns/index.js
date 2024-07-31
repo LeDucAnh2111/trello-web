@@ -17,7 +17,6 @@ import { CSS } from "@dnd-kit/utilities";
 import Menu from "@/components/Popper/Menu";
 import Modal from "@/components/Modal";
 import ListCards from "../listCards";
-import { useDraggable } from "@dnd-kit/core";
 
 const cx = classNames.bind(styles);
 // const HEIGHT_COLUMNS=
@@ -32,6 +31,8 @@ function Columns({ children, column }) {
   const handleToggleColumns = () => {
     setNameColumns(!nameColumns);
   };
+
+  // useSortable mình chuyền id và data vào để khi kéo thả thì nó có thể chuyền dữ liệu id của box đang kéo và giá trị của box đang kéo ra phần event của các sự kiện như onDragEnd, onDragOver , onDragStart ,... để có thể thao tác với các giá trị dễ dàng hơn
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useSortable({
       id: column._id,
@@ -79,7 +80,10 @@ function Columns({ children, column }) {
         </div>
 
         <div className={cx("content-columns")}>
-          <ListCards cards={column.cards}></ListCards>
+          <ListCards
+            cards={column.cards}
+            cardOrderIds={column.cardOrderIds}
+          ></ListCards>
         </div>
 
         <div className={cx("footer-columns")}>

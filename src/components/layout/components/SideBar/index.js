@@ -48,7 +48,6 @@ function SideBar({ toggleSidebar, onClick }) {
               )}
               <div className={cx("box-menu")}>
                 {item.items.map((item, index) => {
-                  console.log(item);
                   return (
                     <div key={index} className={cx("box-item", "flex")}>
                       {item.template && (

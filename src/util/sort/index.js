@@ -3,9 +3,12 @@ const Sort = (array, orderArray, key) => {
   // const orderedArray = cloneArray.sort((a, b) => {
   //   return orderArray.indexOf(a[key]) - orderArray.indexOf(b[key]);
   // });
+
+  // console.log(orderedArray);
   // return orderedArray;
   return [...array].sort((a, b) => {
-    return orderArray.indexOf(a[key]) - orderArray.indexOf(b[key]);
+    let newArray = orderArray.indexOf(a[key]) - orderArray.indexOf(b[key]);
+    return newArray;
   });
 };
 

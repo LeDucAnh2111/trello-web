@@ -10,11 +10,8 @@ function DefaultLayout({ children }) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
   const handleToggleSidebar = useCallback(() => {
-    console.log("check");
     setToggleSidebar(!toggleSidebar);
   }, [toggleSidebar]);
-
-  console.log(toggleSidebar);
   return (
     <div className={cx("container")}>
       <Header />

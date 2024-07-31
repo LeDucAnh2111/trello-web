@@ -8,7 +8,6 @@ import { memo, useState } from "react";
 const cx = classNames.bind(styles);
 
 function Search({ className, children, listSearch, showListSearch }) {
-  console.log("check");
   return (
     <Tippy
       visible={listSearch?.length > 0}

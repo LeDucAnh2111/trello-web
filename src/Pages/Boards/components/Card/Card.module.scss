@@ -2,16 +2,20 @@
   min-height: 55px !important;
 }
 
+.h-default {
+  min-height: 36px !important;
+}
+
 .card {
   flex: 0 0 auto;
   position: relative;
-  min-height: 36px;
-  border-radius: 8px;
+
+  border-radius: 3px;
   background-color: var(--ds-surface-raised, #ffffff);
   box-shadow: var(
     --ds-shadow-raised,
     0px 1px 1px #091e4240,
-    0px 0px 1px #091e424f
+    0px 0px 1px #31363e4f
   );
   overflow: hidden;
   color: var(--ds-text, #172b4d);
@@ -57,4 +61,9 @@
       gap: 4px;
     }
   }
+}
+
+.h-card {
+  height: 0px !important ;
+  overflow: hidden;
 }
