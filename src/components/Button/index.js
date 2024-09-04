@@ -15,7 +15,7 @@ function Button(
     rounded = false,
     leftIcon,
     rightIcon,
-    classNames,
+    className,
     children,
     ...events
   },
@@ -33,8 +33,8 @@ function Button(
     });
   }
   let Card = "button";
-  let className = cx("wrapper", {
-    [classNames]: classNames,
+  let classNames = cx("wrapper", {
+    [className]: className,
     primary,
     outline,
     rounded,
@@ -46,7 +46,7 @@ function Button(
     Card = "a";
   }
   return (
-    <Card className={className} href={href} {...events} ref={ref}>
+    <Card className={classNames} href={href} {...events} ref={ref}>
       {leftIcon && <>{leftIcon}</>}
       {children}
       {rightIcon && <span>{rightIcon}</span>}

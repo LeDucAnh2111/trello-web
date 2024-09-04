@@ -57,7 +57,7 @@ function SideBar({ toggleSidebar, onClick }) {
                           alt=""
                         ></img>
                       )}
-                      <Button leftIcon={item.leftIcon} classNames={cx("title")}>
+                      <Button leftIcon={item.leftIcon} className={cx("title")}>
                         {item.name}
                       </Button>
                       {item.children && (
@@ -65,7 +65,7 @@ function SideBar({ toggleSidebar, onClick }) {
                           className={cx("buttondown")}
                           listItem={item.children}
                         >
-                          <Button classNames={cx("buttonChildMenu")}>
+                          <Button className={cx("buttonChildMenu")}>
                             <FontAwesomeIcon
                               icon={faAngleDown}
                               className={cx("down")}

@@ -20,7 +20,7 @@
       0px 0px 1px #091e424f
     );
     .header-columns {
-      height: 40px;
+      min-height: 40px;
       padding: 6px;
       display: flex;
       align-items: center;
@@ -131,6 +131,36 @@
           );
           color: var(--accent-text-bolder, var(--ds-text, #172b4d));
         }
+      }
+    }
+  }
+}
+
+.modal-delete {
+  height: fit-content;
+  padding: 7px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  .title {
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+  .box-delete {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    .btn {
+      padding: 5px;
+      min-width: 50px;
+    }
+    .box-btn-delete {
+      display: flex;
+      justify-content: end;
+
+      .btn-delete {
+        color: red;
+        border-color: red;
       }
     }
   }

@@ -4,16 +4,20 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./output.css";
 import route from "./Router";
 function App() {
-  let Layout = DefaultLayout;
-
   return (
     <Router>
       <div>
         <Routes>
           {route.map((item, index) => {
+            let Layout = DefaultLayout;
             let Page = item.component;
+
             if (item.page === null) {
               Layout = Fragment;
+            }
+
+            if (item.page !== undefined) {
+              Layout = item.page;
             }
 
             return (

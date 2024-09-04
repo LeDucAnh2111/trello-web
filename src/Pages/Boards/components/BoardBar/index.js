@@ -13,17 +13,19 @@ import { memo } from "react";
 const cx = classNames.bind(style);
 
 function BoardBar({ onClick, data }) {
+  console.log(data);
+
   return (
     <div className={cx("boardbar")}>
       <div className={cx("left-boardbar")}>
-        <Button classNames={cx("Title-table")}>{data?.board?.title}</Button>
+        <Button className={cx("Title-table")}>{data?.board?.title}</Button>
         <Menu listItem={data?.board?.columns}>
           <Button
             leftIcon={
               <FontAwesomeIcon icon={faTableCellsLarge}></FontAwesomeIcon>
             }
             rightIcon={<FontAwesomeIcon icon={faChevronDown}></FontAwesomeIcon>}
-            classNames={cx("listBoard")}
+            className={cx("listBoard")}
           >
             Bảng
           </Button>
@@ -32,7 +34,7 @@ function BoardBar({ onClick, data }) {
       <div className={cx("right-boardbar")}>
         <Button
           onClick={onClick}
-          classNames={cx("icon-invite")}
+          className={cx("icon-invite")}
           leftIcon={<FontAwesomeIcon icon={faUserPlus}></FontAwesomeIcon>}
         >
           Invite

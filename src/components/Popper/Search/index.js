@@ -1,13 +1,15 @@
+/* eslint-disable jsx-a11y/alt-text */
 import classNames from "classnames/bind";
 import styles from "./Search.module.scss";
 import Tippy from "@tippyjs/react/headless";
 import { Wrapper as PopperWrapper } from "@/components/Popper";
 import Button from "@/components/Button";
-import { memo, useState } from "react";
+import { memo, StrictMode } from "react";
 
 const cx = classNames.bind(styles);
 
 function Search({ className, children, listSearch, showListSearch }) {
+  const items = listSearch || [];
   return (
     <Tippy
       visible={listSearch?.length > 0}
@@ -16,41 +18,23 @@ function Search({ className, children, listSearch, showListSearch }) {
       render={(attrs) => (
         <div className={cx("content", className)} tabIndex="-1" {...attrs}>
           <PopperWrapper className={cx("wrapper-result")}>
-            <Button className={cx("result")}>
-              <div className={cx("item")}>
-                <img src="https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/snow.svg" />
-                <div className={cx("contents")}>
-                  <div className={cx("title-result")}>Test</div>
-                  <div className={cx("description")}>
-                    Trello không gian làm việc
-                  </div>
-                </div>
-              </div>
-            </Button>
-            <Button className={cx("result")}>
-              <div className={cx("item")}>
-                <img src="https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/snow.svg" />
-                <div className={cx("contents")}>
-                  <div className={cx("title-result")}>
-                    A Lead Management Pipeline by Crmble
-                  </div>
-                  <div className={cx("description")}>
-                    Trello không gian làm việc
-                  </div>
-                </div>
-              </div>
-            </Button>
-            <Button className={cx("result")}>
-              <div className={cx("item")}>
-                <img src="https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/snow.svg" />
-                <div className={cx("contents")}>
-                  <div className={cx("title-result")}>Test</div>
-                  <div className={cx("description")}>
-                    Trello không gian làm việc
-                  </div>
-                </div>
-              </div>
-            </Button>
+            {items.map((item, index) => {
+              return (
+                <StrictMode key={index}>
+                  <Button className={cx("result")}>
+                    <div className={cx("item")}>
+                      <img src="https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/snow.svg" />
+                      <div className={cx("contents")}>
+                        <div className={cx("title-result")}>{item}</div>
+                        <div className={cx("description")}>
+                          Trello không gian làm việc
+                        </div>
+                      </div>
+                    </div>
+                  </Button>
+                </StrictMode>
+              );
+            })}
           </PopperWrapper>
         </div>
       )}

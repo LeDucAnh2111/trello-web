@@ -12,11 +12,18 @@ import styles from "./ListColumns.module.scss";
 import Columns from "../Columns";
 import Card from "../Card";
 import Button from "@/components/Button";
+import OpenCreateNewColumnsForm from "../OpenCreateNewColumnsForm";
+import Input from "@/components/Input";
 
 const cx = classNames.bind(styles);
 
 function ListColumns({ listColumns }) {
   const [activeId, setActiveId] = useState(null);
+  const [openCreateNewColumnsForm, setOpenCreateNewColumnsForm] =
+    useState(false);
+
+  const toggleOpenCreateNewColumnsForm = () =>
+    setOpenCreateNewColumnsForm(!openCreateNewColumnsForm);
 
   const boxContent = useRef(null);
 
@@ -77,14 +84,34 @@ function ListColumns({ listColumns }) {
           ))}
         </SortableContext>
 
-        <div className={cx("add-columns")}>
-          <Button
-            className={cx("button-add-columns")}
-            leftIcon={<FontAwesomeIcon icon={faPlus} />}
+        {!openCreateNewColumnsForm ? (
+          <div
+            onClick={toggleOpenCreateNewColumnsForm}
+            className={cx("add-columns")}
           >
-            Thêm danh sách khác
-          </Button>
-        </div>
+            <Button
+              className={cx("button-add-columns")}
+              leftIcon={<FontAwesomeIcon icon={faPlus} />}
+            >
+              Thêm danh sách khác
+            </Button>
+          </div>
+        ) : (
+          <div
+            // onClick={toggleOpenCreateNewColumnsForm}
+            className={cx("add-columns")}
+          >
+            <div
+              className={cx("button-add-columns", {
+                backgoundButtonAddColumn: openCreateNewColumnsForm,
+              })}
+            >
+              <OpenCreateNewColumnsForm
+                toggleForm={toggleOpenCreateNewColumnsForm}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

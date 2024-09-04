@@ -25,10 +25,10 @@ function Menu({ children, listItem, className, toggle }) {
                   <StrictMode key={index}>
                     {item.separating && <hr />}
                     <Button
-                      classNames={cx("item")}
+                      className={cx("item")}
                       key={index}
                       leftIcon={item.leftIcon}
-                      onClick={item.onClick}
+                      {...item.event}
                     >
                       {item.title}
                     </Button>

@@ -3,43 +3,51 @@ import classNames from "classnames/bind";
 import styles from "./Input.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { memo } from "react";
+import { memo, forwardRef } from "react";
 
 const cx = classNames.bind(styles);
 
-const Input = ({
-  type = "text",
-  search = false,
-  placeholder = "",
-  value,
-  className = "",
-  ...events
-}) => {
-  let classList = cx("box-input", {
-    [className]: className,
-    [type]: type,
-    search,
-  });
-  return (
-    <div className={classList}>
-      <input
-        type={type}
-        id="input"
-        value={value}
-        placeholder={placeholder}
-        {...events}
-      />
-      {search && (
-        <label htmlFor="input">
-          <FontAwesomeIcon
-            className={cx("icon")}
-            icon={faSearch}
-          ></FontAwesomeIcon>
-        </label>
-      )}
-    </div>
-  );
-};
+const Input = forwardRef(
+  (
+    {
+      type = "text",
+      search = false,
+      placeholder = "",
+      autofocus = false,
+      value,
+      className = "",
+      ...events
+    },
+    ref
+  ) => {
+    let classList = cx("box-input", {
+      [className]: className,
+      [type]: type,
+      search,
+    });
+    return (
+      <div className={classList}>
+        <input
+          type={type}
+          id="input"
+          value={value}
+          placeholder={placeholder}
+          autoFocus={autofocus}
+          {...events}
+          ref={ref}
+        />
+        {search && (
+          <label htmlFor="input">
+            <FontAwesomeIcon
+              className={cx("icon")}
+              icon={faSearch}
+            ></FontAwesomeIcon>
+          </label>
+        )}
+      </div>
+    );
+  }
+);
 
 Input.propTypes = {
   type: PropTypes.string,
@@ -48,6 +56,7 @@ Input.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   className: PropTypes.string,
+  autofocus: PropTypes.bool,
 };
 
 export default memo(Input);
