@@ -62,6 +62,7 @@
     padding: 7px;
     border-radius: 50%;
     background-color: transparent;
+    color: white;
     &:hover {
       background-color: #225ca9;
     }
@@ -70,8 +71,26 @@
       height: 19px;
       color: white;
     }
-    .bell {
-      transform: rotate(25deg);
+    .box-bell {
+      position: relative;
+      .count-invitation {
+        position: absolute;
+        background-color: red;
+        top: -7px;
+        right: -7px;
+        width: 16px;
+        height: 16px;
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color: #fff;
+        z-index: 99;
+      }
+      .bell {
+        transform: rotate(25deg);
+      }
     }
   }
   .box-avatar {
@@ -91,7 +110,7 @@
   width: 200px;
   background-color: rgba(255, 255, 255, 0.2);
   border: var(--ds-border-width, 1px) solid
-    var(--dynamic-text-transparent, rgba(255, 255, 255, 0.25));
+    var(--dynamic-text-transparent, rgba(224, 224, 224, 0.25));
   transition: background-color 0.2s linear;
   &:hover {
     background-color: rgba(255, 255, 255, 0.4);
@@ -108,4 +127,44 @@
 
 .search-result {
   width: 280px;
+}
+
+.backgound-flexible {
+  background-color: rgb(245, 245, 245);
+
+  border: 1px solid rgb(206, 206, 206);
+}
+
+.dynamic-text {
+  color: #525252 !important;
+  &:hover {
+    background-color: rgb(245, 245, 245) !important;
+  }
+}
+
+.CompSearch-flexible {
+  width: 200px;
+  background-color: rgba(220, 220, 220, 0.2);
+  border: var(--ds-border-width, 1px) solid
+    var(--dynamic-text-transparent, rgba(162, 162, 162, 0.25));
+  transition: background-color 0.2s linear;
+  &:hover {
+    background-color: rgba(220, 220, 220, 0.2) !important;
+  }
+  input {
+    color: rgb(104, 104, 104);
+    font-size: 1.4rem;
+    &::placeholder {
+      color: rgb(126, 126, 126);
+      padding-left: 2px;
+    }
+  }
+}
+
+.icon-search {
+  color: rgb(108, 108, 108) !important;
+}
+
+.username {
+  color: #fff;
 }

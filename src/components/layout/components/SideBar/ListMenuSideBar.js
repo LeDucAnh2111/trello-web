@@ -35,42 +35,42 @@ const ListMenuSideBar = [
       },
     ],
   },
-  {
-    title: "Dạng xem Không gian làm việc",
-    items: [
-      {
-        name: "Bảng",
-        leftIcon: <FontAwesomeIcon icon={faTableList}></FontAwesomeIcon>,
-      },
-      {
-        name: "Lịch",
-        leftIcon: <FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon>,
-        push: true,
-      },
-    ],
-  },
-  {
-    title: "Các bảng của bạn",
-    push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
-    // items: [
-    //   {
-    //     name: "Bảng",
-    //     leftIcon: <FontAwesomeIcon icon={faTableList}></FontAwesomeIcon>,
-    //   },
-    //   {
-    //     name: "Lịch",
-    //     leftIcon: <FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon>,
-    //     push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
-    //   },
-    // ],
-    items: listData?.map((item) => {
-      return {
-        _id: item.board._id,
-        name: item.board.title,
-        template: item.board.template,
-      };
-    }),
-  },
+  // {
+  //   title: "Dạng xem Không gian làm việc",
+  //   items: [
+  //     {
+  //       name: "Bảng",
+  //       leftIcon: <FontAwesomeIcon icon={faTableList}></FontAwesomeIcon>,
+  //     },
+  //     {
+  //       name: "Lịch",
+  //       leftIcon: <FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon>,
+  //       push: true,
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Các bảng của bạn",
+  //   push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
+  //   // items: [
+  //   //   {
+  //   //     name: "Bảng",
+  //   //     leftIcon: <FontAwesomeIcon icon={faTableList}></FontAwesomeIcon>,
+  //   //   },
+  //   //   {
+  //   //     name: "Lịch",
+  //   //     leftIcon: <FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon>,
+  //   //     push: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
+  //   //   },
+  //   // ],
+  //   items: listData?.map((item) => {
+  //     return {
+  //       _id: item.board._id,
+  //       name: item.board.title,
+  //       template: item.board.template,
+  //     };
+  //   }),
+  // },
 ];
 
 export default ListMenuSideBar;

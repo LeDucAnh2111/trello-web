@@ -6,30 +6,86 @@ import { faList } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Header.module.scss";
 import Button from "@/components/Button";
 
-import MenuDataList from "./MenuDataList";
+import MenuDataList, { user } from "./MenuDataList";
 import Menu from "@/components/Popper/Menu";
 import Input from "@/components/Input";
 import { faBell, faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
 import Title from "@/components/Title";
 import Search from "@/components/Popper/Search";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { BoardsAPIs } from "@/Service/boardApi";
+import InvitationBox from "@/components/Popper/invitationBox";
+import socket from "@/Service/socket";
+import { invitationApis } from "@/Service/invitation";
+import { UserAPIs } from "@/Service/userApi";
 const cx = classNames.bind(styles);
 function Header() {
+  const url = useLocation();
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
   const [valueSearch, setValueSearch] = useState("");
   const [listSearch, setListSearch] = useState([]);
   const [showListSearch, setShowListSearch] = useState(false);
+  const [showListInvitation, setShowListInvitation] = useState([]);
+  const [checkInvitations, setCheckInvitations] = useState(false);
 
+  let backgroundClass = false;
   useEffect(() => {
     if (valueSearch === "") {
       if (showListSearch) setShowListSearch(false);
       if (listSearch.length > 0) setListSearch([]);
     } else {
-      if (!showListSearch) setShowListSearch(true);
-      if (listSearch.length === 0) setListSearch([1, 2, 3]);
+      BoardsAPIs.getBoardsByValue(valueSearch).then((boards) => {
+        setShowListSearch(true);
+        setListSearch(boards);
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueSearch]);
+
+  useEffect(() => {
+    UserAPIs.getById().then((user) => {
+      setUsername(user.username);
+    });
+  }, []);
+
+  useEffect(() => {
+    invitationApis
+      .getInvitation()
+      .then((invitation) => {
+        console.log(">>>>>>>>>>", invitation);
+
+        setShowListInvitation(invitation);
+      })
+      .catch((error) => {
+        navigate("/login");
+      });
+  }, [checkInvitations]);
+
+  // const handelCheckInvitations = () => {
+  //   console.log(">>>>>>>>>>>>>>handelCheckInvitations");
+
+  //   setCheckInvitations(!checkInvitations);
+  // };
+  // useEffect(() => {
+  //   socket.on("ResponeInvitation", (data) => {
+  //     handelCheckInvitations();
+  //   });
+  // }, []);
+
+  const toggleCheckInvitations = () => {
+    setCheckInvitations(!checkInvitations);
+  };
+  useEffect(() => {
+    socket.on("invitations", (data) => {
+      toggleCheckInvitations();
+    });
+    socket.on("updateInvitations", (data) => {
+      console.log("???????", data);
+      setCheckInvitations((pre) => !pre);
+    });
+  }, []);
 
   const handleSearch = useCallback((e) => {
     setValueSearch(e.target.value);
@@ -37,25 +93,43 @@ function Header() {
 
   const menuItems = useMemo(() => MenuDataList, []);
 
+  if (url.pathname === "/") {
+    backgroundClass = true;
+  }
+
+  console.log(url.pathname === "/");
+  console.log(backgroundClass);
+
   return (
     <div
       className={cx(
         "header",
-        "flex justify-between items-center  px-4 overflow-x-auto"
+        "flex justify-between items-center  px-4 overflow-x-auto",
+        { "backgound-flexible": backgroundClass }
       )}
     >
       <div
         className={cx("header-left", "flex items-center justify-between gap-5")}
       >
-        <div className="list-group">
-          <FontAwesomeIcon icon={faList} className="text-white text-3xl" />
-        </div>
-        <Link to="/" className={cx("logo")}>
-          <img
-            src="https://trello.com/assets/d947df93bc055849898e.gif"
-            alt="logo"
-          />
-        </Link>
+        {backgroundClass ? (
+          <>
+            <Link to="/" className={cx("logo")}>
+              <img src="./logoTrello/Trello-logo.png" alt="logo" />
+            </Link>
+          </>
+        ) : (
+          <>
+            <div className="list-group">
+              <FontAwesomeIcon icon={faList} className="text-white text-3xl" />
+            </div>
+            <Link to="/" className={cx("logo")}>
+              <img
+                src="https://trello.com/assets/d947df93bc055849898e.gif"
+                alt="logo"
+              />
+            </Link>
+          </>
+        )}
         <div className={cx("box-menu")}>
           <ul className={cx("menu", " flex justify-around gap-3")}>
             {menuItems.map((item, index) => (
@@ -67,7 +141,9 @@ function Header() {
                   <Button
                     rightIcon={item.rightIcon}
                     leftIcon={item.leftIcon}
-                    className={cx("button")}
+                    className={cx("button", {
+                      "dynamic-text": backgroundClass,
+                    })}
                   >
                     {item.title}
                   </Button>
@@ -91,24 +167,65 @@ function Header() {
           >
             <Input
               onChange={handleSearch}
-              className={cx("CompSearch")}
+              className={cx("CompSearch", {
+                "CompSearch-flexible": backgroundClass,
+              })}
+              changeColorIcon={backgroundClass ? cx("icon-search") : ""}
               search
               placeholder="Search..."
+              autocomplete={"off"}
               value={valueSearch}
             />
           </Search>
         </div>
-        <div className={cx("box-icon", "bell")}>
-          <Title title="Thông báo">
-            <FontAwesomeIcon className={cx("icon", "bell")} icon={faBell} />
-          </Title>
+        <div
+          className={cx("box-icon", "bell", {
+            "dynamic-text": backgroundClass,
+          })}
+        >
+          {showListInvitation.length > 0 ? (
+            <InvitationBox
+              listInvitation={showListInvitation}
+              className={cx("wrapper-itemChild")}
+            >
+              <div className={cx("box-bell")}>
+                <div className={cx("count-invitation")}>
+                  {showListInvitation.length}
+                </div>
+                <FontAwesomeIcon
+                  className={cx("icon", "bell", {
+                    "dynamic-text": backgroundClass,
+                  })}
+                  icon={faBell}
+                />
+              </div>
+            </InvitationBox>
+          ) : (
+            <div className={cx("box-bell")}>
+              <div className={cx("count-invitation")}>
+                {showListInvitation.length}
+              </div>
+              <FontAwesomeIcon
+                className={cx("icon", "bell", {
+                  "dynamic-text": backgroundClass,
+                })}
+                icon={faBell}
+              />
+            </div>
+          )}
         </div>
-        <div className={cx("box-icon")}>
+        <div className={cx("box-icon", { "dynamic-text": backgroundClass })}>
           <Title title="Thông tin">
-            <FontAwesomeIcon className={cx("icon")} icon={faCircleQuestion} />
+            <FontAwesomeIcon
+              className={cx("icon", { "dynamic-text": backgroundClass })}
+              icon={faCircleQuestion}
+            />
           </Title>
         </div>
-        <Title title="Tài khoản">
+        <div className={cx("username", { "dynamic-text": backgroundClass })}>
+          {username}
+        </div>
+        <Menu listItem={user} className={cx("wrapper-itemChild")}>
           <div className={cx("box-avatar", "user")}>
             <img
               src="https://lh3.googleusercontent.com/fife/ALs6j_E78JEtiynjU-EZ0jWqsBVbEDYArVtY7-16wju_pzweYz7cHftTrZLwa3EHrCaTk0wYjTxnb-xzEDncofxD3WFIAMt-8H1UZpYh3GM8-l7CfiUHUkUb44NZn-pwE7zmiaBv-RLenAIUk_EWu6gqQHr1noxYrvD3hVwXD88tCNXoyM0nzwv8E3oTuiB6A0dqn7aQPKv_cc7_f9NEzA5yyasizs_kZGbnmzLLSjdizMLMgJNVM8CpWHlmNwzG2iJSN_BefORaEt71VOUOKBW3WZrKqc-g1F8BiZBM0Sn0ivjWvD_HrEMc23SrT9vqnEoTJ9yBmsUSKyuIs59Mbni2YmODp5oejzrZWLo_znLNyMjM_j_pZyfjYpk4hHaiS2tLp4QvQtDoPD-inNYR6cN9KYPSu1eGB8kiOSlViziYb_9yac7o-GWugNgYL5Ebzr-Zv4uP5fyQw-OsbzIty7gKuSLneyRY6-WCuVnYLKs7RLwBRzN23hbBcEYa1_oh63RoZE3eGua0sO-8qQHYC1gCYNFtZI9Y0KV1Tsyl-CzeU9qIbjeed0UzL_f-DMEcRb3f03MaSlALijfyxgkO5vjDK9_SbMpK-ClxdGikmUnqpfAnRrKs4By1rUXdHx0tBGWGcyQFvuefPEotsdITXEoUReOfKKAMJxg69YICaRF-YLtaWIdrYwpJzyREQvAE-c6GZwBRlpPaqrY7tQe2UhIt-KiadsuurW3r5BRWrammh3l5BkOprXpyLqe1sokxzjlabubGhrUN26VjMXKtEUWBV8XsB1c1L3XxOUHlYwG7GyQStoJsxPjIbapToIZfSk5kETX5G0GXonIY3v3GxzAZwje36wDVt1JEZYaGax4uGiN5IsCSMmfiYQ-bdjwM1HT6R-gBlzgYUI0P3R2400PCdCqG2DWI7W4bQetcUtbKqro1TvRcJkfrgYwQFK7bCwGN4XQafJAh-1MYj7lxKBJ6VKXqovf-Tkbg2AySnn7K6YL165uofPGEisO4AGBl-3vs7KJgYXu6g_nFa7qJEza7iVL0oeK35Y8DS9W_p8PVzYpbnoi9OhcpClDvGmUSjS7RPpgye1w-JUb9t9yuNQwaHrQMi5YZNK83iVcTNnp0nLfqn1syh7HafZIq7wGYdbCiRUDnrxGkKGxUJRE7k_-7VzmTZ2nCGMjuKEa07Yk1RBWIy6XkvWCvwkub8Ob5buUL4DzrBVeiqcaGRSbT-1B_kcFR8kLAMWUItuGHdYhWNcvUImfx1DI4eCZUZZu3_wOogkVzPEshGajc15pahSV01TtKAsW5jo7cRynL_A-l8hr-Y_RgRT04azmVyqzEWEISfC3hW7dTsTPznmYSyzYjTPWUA_NoDfpmdRdqHhVBaGJzJpXEJdhhKqzTPcHIARXu7GGYeBVWAUoMQyqSZMIBvX0_MKmIGlc_1Q=s32-c"
@@ -116,7 +233,7 @@ function Header() {
               className={cx("avatar")}
             />
           </div>
-        </Title>
+        </Menu>
       </div>
     </div>
   );

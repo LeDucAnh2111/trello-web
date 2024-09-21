@@ -17,6 +17,7 @@ function Menu({ children, listItem, className, toggle }) {
         interactive
         offset={[0, 10]}
         placement="bottom-start"
+        onClickOutside={(instance) => instance.hide()}
         render={(attrs) => (
           <div className={cx("content", className)} tabIndex="-1" {...attrs}>
             {

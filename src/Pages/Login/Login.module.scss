@@ -1,0 +1,188 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background-image: url(https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/trello-left.4f52d13c.svg),
+    url(https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/trello-right.e6e102c7.svg);
+  background-repeat: no-repeat;
+  background-position: left bottom, right bottom;
+  background-size: 368px, 368px;
+  background-attachment: fixed, fixed;
+  .box-login {
+    width: 400px;
+    // min-height: 500px;
+    max-height: calc(100% - 35px);
+    overflow-y: auto;
+    margin: 0 auto;
+    padding: 32px 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(255, 255, 255);
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+    .header-login {
+      height: 84px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 16px;
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        .logo-img {
+          width: 24px;
+          height: 24px;
+          img {
+            width: 100%;
+          }
+        }
+        .logo-title {
+          font-size: 2.5rem;
+          font-weight: 600;
+        }
+      }
+      .title {
+        font-size: 1.6rem;
+        font-weight: 500;
+      }
+    }
+    .content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      a {
+        display: block;
+        width: 100%;
+        font-size: 1.4rem;
+        color: #0065ff;
+        cursor: pointer;
+        margin-bottom: 1.8rem;
+      }
+      .form-login {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        border: 1px solid #7a869a;
+        margin-bottom: 15px;
+        border-radius: 3px;
+        &:nth-child(2) {
+          margin-bottom: 9px;
+        }
+        &:hover {
+          background-color: var(--ds-background-input-hovered, #ebecf0);
+        }
+        &:focus-within {
+          border: 1px solid #388bff;
+          box-shadow: inset 0 0 0 var(--ds-border-width, 1px)
+            var(--ds-border-focused, #2684ff);
+        }
+        input {
+          width: 100%;
+          height: 100%;
+
+          &:focus {
+          }
+          &::placeholder {
+            font-size: 1.4rem;
+          }
+        }
+      }
+
+      .register {
+        width: 100%;
+        background-color: #0065ff;
+        padding: 10px 0;
+        color: #fff;
+        &:hover {
+          background-color: #0c66e4;
+        }
+      }
+    }
+    .or {
+      text-align: center;
+      width: 100%;
+      flex-direction: column;
+      margin-top: 25px;
+      &::before {
+        color: rgb(94, 108, 132);
+        content: "Hoặc đăng ký với:";
+        display: block;
+        font-size: 14px;
+        line-height: 16px;
+        margin-bottom: 9px;
+        font-weight: 600;
+        text-align: center;
+      }
+      .type {
+        width: 100%;
+        margin: 8px 0;
+        display: flex;
+        align-items: center;
+        padding: 7px;
+        justify-content: center;
+        border: 1px solid #7a869a;
+        gap: 13px;
+        &:hover {
+          background: rgba(9, 30, 66, 0.02);
+        }
+        .box-logo-gg {
+          width: 24px;
+          height: 24px;
+          display: flex;
+          justify-content: center;
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+    }
+  }
+  .text-login {
+    margin-top: 16px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    color: #7a869a;
+    a {
+      color: #0065ff;
+    }
+  }
+  .footer-login {
+    margin-top: 45px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .brand {
+      height: 100%;
+      img {
+        height: 18px;
+      }
+    }
+    .contact {
+      margin-top: 14px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      color: #7a869a;
+    }
+  }
+}
+
+.err {
+  color: rgb(207, 26, 26);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}

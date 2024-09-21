@@ -1,0 +1,45 @@
+import Tippy from "@tippyjs/react/headless";
+import "tippy.js/dist/tippy.css";
+import { Wrapper as PopperWrapper } from "@/components/Popper";
+import classNames from "classnames/bind";
+import styles from "./Menu.module.scss";
+import Button from "@/components/Button";
+import { StrictMode, memo } from "react";
+
+const cx = classNames.bind(styles);
+function List({ children, listItem, className, toggle }) {
+  const items = listItem || [];
+  if (items.length > 0) {
+    return (
+      <Tippy
+        hideOnClick={false}
+        delay={200}
+        interactive
+        offset={[0, 10]}
+        placement="bottom-start"
+        onClickOutside={(instance) => instance.hide()}
+        render={(attrs) => (
+          <div className={cx("content", className)} tabIndex="-1" {...attrs}>
+            {
+              <PopperWrapper>
+                {items.map((item, index) => (
+                  <StrictMode key={index}>
+                    <Button className={cx("item")} key={index}>
+                      {item.username}
+                    </Button>
+                  </StrictMode>
+                ))}
+              </PopperWrapper>
+            }
+          </div>
+        )}
+      >
+        <div className={cx("w-child")}>{children}</div>
+      </Tippy>
+    );
+  } else {
+    return <div className={cx("w-child")}>{children}</div>;
+  }
+}
+
+export default memo(List);

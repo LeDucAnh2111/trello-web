@@ -73,7 +73,7 @@ function Columns({ children, column }) {
       title: "Rename",
       event: {
         onClick: () => {
-          alert("Xin chào");
+          // window.location.href = "http://localhost:3000/v1/auth/google";
         },
       },
     },

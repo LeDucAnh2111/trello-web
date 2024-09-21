@@ -6,14 +6,14 @@ import SideBar from "../components/SideBar";
 import { useCallback, useState } from "react";
 
 const cx = classNames.bind(styles);
-function DefaultLayout({ children }) {
+function DefaultLayout({ children, background }) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
   const handleToggleSidebar = useCallback(() => {
     setToggleSidebar(!toggleSidebar);
   }, [toggleSidebar]);
   return (
-    <div className={cx("container")}>
+    <div className={cx("container", { "container-background": background })}>
       <Header />
       <div className={cx("body")}>
         <div

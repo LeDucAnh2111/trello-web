@@ -15,7 +15,9 @@ const Input = forwardRef(
       placeholder = "",
       autofocus = false,
       value,
+      changeColorIcon = "",
       className = "",
+      autocomplete = "on",
       ...events
     },
     ref
@@ -25,6 +27,7 @@ const Input = forwardRef(
       [type]: type,
       search,
     });
+
     return (
       <div className={classList}>
         <input
@@ -33,13 +36,16 @@ const Input = forwardRef(
           value={value}
           placeholder={placeholder}
           autoFocus={autofocus}
+          autocomplete={autocomplete}
           {...events}
           ref={ref}
         />
         {search && (
           <label htmlFor="input">
             <FontAwesomeIcon
-              className={cx("icon")}
+              className={cx("icon", {
+                [changeColorIcon]: changeColorIcon.length > 0,
+              })}
               icon={faSearch}
             ></FontAwesomeIcon>
           </label>
@@ -57,6 +63,7 @@ Input.propTypes = {
   onChange: PropTypes.func,
   className: PropTypes.string,
   autofocus: PropTypes.bool,
+  autocomplete: PropTypes.string,
 };
 
 export default memo(Input);

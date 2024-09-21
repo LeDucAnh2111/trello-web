@@ -1,0 +1,64 @@
+.result {
+  border-bottom: 1px solid rgb(190, 190, 190);
+  &:last-child {
+    border-bottom: 1px solid transparent;
+    /* Áp dụng style cho phần tử cuối cùng */
+  }
+  .box-invitation {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    .content-invitation {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: start;
+      width: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+      .name {
+        font-weight: bold;
+        color: #3e3e3e;
+      }
+      .email {
+        color: #555555;
+        font-size: 1.3rem;
+      }
+      .invitation {
+        // background-color: #3498db;
+        color: #333;
+        font-size: 1.5rem;
+        span {
+          font-size: 1.5rem;
+          font-weight: 500;
+          margin-right: 5px;
+          // color: #999999;
+        }
+      }
+      .date {
+        color: #999999;
+        width: 100%;
+        font-size: 1.2rem;
+        text-align: right;
+      }
+    }
+    .btn {
+      display: flex;
+      justify-content: end;
+      margin-bottom: 5px;
+      gap: 5px;
+      margin-right: 5px;
+
+      .button {
+        padding: 7px 5px;
+        color: #fff;
+      }
+      .btn-accept {
+        background-color: #1472fd;
+      }
+      .btn-reject {
+        background-color: #dc143c;
+      }
+    }
+  }
+}

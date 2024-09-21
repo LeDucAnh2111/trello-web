@@ -1,0 +1,42 @@
+.container {
+  min-width: 500px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  .title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .group-input {
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    // justify-content: left;s
+    align-items: center;
+    gap: 10px;
+    .label-input {
+      // background-color: red;
+      width: 89px;
+    }
+    .input {
+      flex: 1;
+      padding: 0 5px;
+      border: 1px solid rgb(183, 183, 183);
+    }
+  }
+  .box-btn {
+    display: flex;
+    justify-content: end;
+    .btn {
+      background-color: #0c66e4;
+      color: #fff;
+      padding: 7px 0;
+    }
+  }
+}
+.error {
+  color: red;
+  margin-top: 5px;
+  font-size: 1.4rem;
+}
